@@ -1,9 +1,7 @@
-# They Once Existed — Image Assets
+# They Once Existed — Game Assets
 
-《它们曾存在》Twine 游戏的图片素材，共 53 张 JPG。
+《它们曾存在》Twine 游戏素材：53 张图片及 6 个音频文件。
 
-## 使用
+图片位于 images/，音频位于 audio/。带内容版本号的直链分别见 image-urls.json 和 audio-urls.json。
 
-所有图片保存在 `images/`，保留原始中文文件名。图片直链清单见 `image-urls.json`。
-
-原画署名见 `images/未命名作品 44_副本3.jpg`。本仓库未额外授予素材使用许可。
+原画署名见 images/未命名作品 44_副本3.jpg。音频按提供的原文件保留。本仓库不额外授予素材使用许可。
