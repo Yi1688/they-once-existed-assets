@@ -1,9 +1,11 @@
 (function(){
   'use strict';
   const storageKey='they-once-existed-new-gift-v1';
+  const validEndings=['pig-live','pig-fall','cat-light','cat-sleep','duck-yes','duck-no'];
   let saved={endings:[],muted:false};
-  try{const value=JSON.parse(localStorage.getItem(storageKey)||'{}');if(value&&typeof value==='object')saved={endings:Array.isArray(value.endings)?value.endings.filter(x=>typeof x==='string'):[],muted:value.muted===true};}catch(_){}
+  try{const value=JSON.parse(localStorage.getItem(storageKey)||'{}');if(value&&typeof value==='object')saved={endings:Array.isArray(value.endings)?[...new Set(value.endings.filter(x=>validEndings.includes(x)))]:[],muted:value.muted===true};}catch(_){}
   const persist=()=>{try{localStorage.setItem(storageKey,JSON.stringify(saved));}catch(_){}};
+  persist();
   // 三条路线按章节播放 GitHub 原始文件直链。同一音频跨页面继续播放，切换章节时停止上一段。
   const sceneAudio={
     pigOpen:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%BC%80%E5%9C%BA.m4a',pigInteract:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E4%BA%A4%E4%BA%92.m4a',pigWorship:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%B4%87%E6%8B%9C.m4a',pigLive:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%AD%98%E6%B4%BB.m4a',pigFall:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E7%81%AD%E7%BB%9D.m4a',
@@ -104,17 +106,16 @@
     });
   }
   function syncProgress(){
-    document.querySelectorAll('[data-journal-total]').forEach(el=>el.textContent=saved.endings.length+'/9');
-    document.querySelectorAll('[data-role-count]').forEach(el=>{const count=saved.endings.filter(id=>id.startsWith(el.dataset.roleCount+'-')).length;el.textContent=count+'/3';el.classList.toggle('has-ending',count>0);});
-    document.querySelectorAll('[data-entry]').forEach(el=>{const found=saved.endings.includes(el.dataset.entry);el.classList.toggle('is-discovered',found);el.querySelector('.entry-state').textContent=found?'已抵达 / DISCOVERED':'尚未抵达 / UNDISCOVERED';el.querySelector('.entry-copy').textContent=found?el.dataset.description:'选择另一条路，听见另一个答案。';});
+    document.querySelectorAll('[data-journal-total]').forEach(el=>el.textContent=saved.endings.length+'/'+validEndings.length);
+    document.querySelectorAll('[data-role-count]').forEach(el=>{const count=saved.endings.filter(id=>id.startsWith(el.dataset.roleCount+'-')).length;el.textContent=count+'/2';el.classList.toggle('has-ending',count>0);});
+    document.querySelectorAll('[data-entry]').forEach(el=>{const found=saved.endings.includes(el.dataset.entry);el.classList.toggle('is-discovered',found);el.querySelector('.entry-state').textContent=found?'已完成 / DISCOVERED':'尚未完成 / UNDISCOVERED';el.querySelector('.entry-copy').textContent=found?el.dataset.description:'走完这条路线后，这里会记下结局。';});
   }
   function complete(task,text){if(task.dataset.complete==='yes')return;task.dataset.complete='yes';task.classList.add('task-complete');const status=task.querySelector('[data-task-status]');if(status)status.textContent=text;task.querySelectorAll('[data-task-action]').forEach(b=>b.disabled=true);task.querySelectorAll('[data-task-next]').forEach(el=>{el.classList.remove('is-locked');el.removeAttribute('inert');el.removeAttribute('aria-hidden');});const meter=task.querySelector('.task-track span');if(meter)meter.style.width='100%';}
   function setupTask(task,page){
     const kind=task.dataset.task;let count=0;const goal=Number(task.dataset.goal||1);const status=task.querySelector('[data-task-status]'),track=task.querySelector('.task-track span');
     task.querySelectorAll('[data-task-next].is-locked').forEach(el=>{el.setAttribute('inert','');el.setAttribute('aria-hidden','true');});
-    if(kind==='ram')task.querySelector('[data-task-action]').addEventListener('click',()=>{if(count>=goal)return;count++;task.dataset.value=String(count);status.textContent='獠牙撞击 · '+count+' / '+goal;if(track)track.style.width=count/goal*100+'%';sound('ram');artworkImpact(page);if(count===goal){complete(task,'第五次撞击落下。它的轮廓，开始改变。');revealGod(page);}});
+    if(kind==='ram')task.querySelector('[data-task-action]').addEventListener('click',()=>{if(count>=goal)return;count++;task.dataset.value=String(count);status.textContent='獠牙撞击 · '+count+' / '+goal;if(track)track.style.width=count/goal*100+'%';sound('ram');artworkImpact(page);if(count===goal){complete(task,'撞了五下。你抬起头，灯光后面好像有一对獠牙。');revealGod(page);}});
     if(kind==='chew')task.querySelector('[data-task-action]').addEventListener('click',()=>{sound('chew');artworkImpact(page);complete(task,'咔嚓。奇怪的味道在嘴里散开。');});
-    if(kind==='signal')task.querySelector('[data-task-action]').addEventListener('click',()=>{if(count>=goal)return;count++;task.dataset.value=String(count);status.textContent='有人在听 · '+count+' / '+goal;if(track)track.style.width=count/goal*100+'%';if(page.classList.contains('role-pig'))playCall('pig',task.querySelector('[data-task-action]'));else sound('grain');if(count===goal)complete(task,page.classList.contains('role-pig')?'林中传来了回应。那些脚步，正在向你靠近。':'门外的脚步停下了。有人看见了你留下的东西。');});
     if(kind==='duel'){
       const targets=[...task.querySelectorAll('[data-duck-target]')];let previous=-1,hits=[0,0];
       targets.forEach((button,index)=>button.addEventListener('click',event=>{
@@ -122,9 +123,9 @@
         if(index===previous){status.textContent='它挡住了你。换一个方向，再试一次。';return;}
         previous=index;hits[index]++;count++;task.dataset.value=String(count);sound('grain');button.classList.add('is-hit');setTimeout(()=>button.classList.remove('is-hit'),160);
         const remaining=Math.max(0,3-hits[index]);button.querySelector('[data-target-life]').textContent=remaining===0?'对手已退下':'还需 '+remaining+' 次';
-        const grain=task.querySelector('[data-grains]');grain.textContent=String(count);if(track)track.style.width=count/goal*100+'%';status.textContent=remaining===0?'对手已淘汰。圣餐 +1。':'你抢到一粒粮食。换一个方向继续争夺。';
+        const grain=task.querySelector('[data-grains]');grain.textContent=String(count);if(track)track.style.width=count/goal*100+'%';status.textContent=remaining===0?'它让开了。你又抢到一粒粮。':'抢到一粒。换个方向，再挤过去。';
         const rect=button.getBoundingClientRect();for(let i=0;i<5;i++){const dot=document.createElement('i');dot.className='crumb';dot.style.left=(event.clientX?event.clientX-rect.left:rect.width/2)+'px';dot.style.top=(event.clientY?event.clientY-rect.top:rect.height/2)+'px';dot.style.setProperty('--dx',(Math.random()*70-35)+'px');dot.style.setProperty('--dy',(-20-Math.random()*65)+'px');button.append(dot);setTimeout(()=>dot.remove(),800);}
-        if(remaining===0)button.disabled=true;if(count>=goal)complete(task,'对手已退下。你终于获得了「被挑选」的资格。');
+        if(remaining===0)button.disabled=true;if(count>=goal)complete(task,'前面的鸭子退开了。你护住刚抢到的六粒粮。');
       }));
     }
     if(kind==='hold'){
@@ -195,7 +196,7 @@
     const pages=[...document.querySelectorAll('tw-passage .page')];const page=pages[pages.length-1];if(!page||page===lastPage)return false;
     lastPage?._stopHold?.();lastPage=page;resetPreview();wanted=page.dataset.sound||'';
     document.documentElement.dataset.role=['pig','cat','duck'].find(role=>page.classList.contains('role-'+role))||'selection';
-    const ending=page.dataset.ending;if(ending&&!saved.endings.includes(ending)){saved.endings.push(ending);persist();}
+    const ending=page.dataset.ending;if(validEndings.includes(ending)&&!saved.endings.includes(ending)){saved.endings.push(ending);persist();}
     syncProgress();syncAudio();
     page.querySelectorAll('[data-task]').forEach(task=>setupTask(task,page));
     setupCardTabs(page);setupSceneEffects(page);setupTextEffects(page);fitPage(page);
@@ -214,7 +215,7 @@
     const toggle=event.target.closest('[data-audio-toggle]');if(toggle){saved.muted=!saved.muted;persist();if(saved.muted){resetPreview();stopSceneSounds();}else if(lastPage)startSceneSounds(lastPage);syncAudio();return;}
     const call=event.target.closest('[data-animal]');if(call)playCall(call.dataset.animal,call);
   });
-  document.addEventListener('error',event=>{const img=event.target;if(img.tagName!=='IMG'||img.dataset.failed)return;img.dataset.failed='yes';const parent=img.closest('.artwork');if(parent){const note=document.createElement('div');note.className='load-error';note.textContent='画面暂时没有找到';const sub=document.createElement('small');sub.textContent='请保留 HTML 旁的素材文件夹，仍可使用下方按钮继续。';note.append(sub);parent.append(note);}},true);
+  document.addEventListener('error',event=>{const img=event.target;if(img.tagName!=='IMG'||img.dataset.failed)return;img.dataset.failed='yes';const parent=img.closest('.artwork');if(parent){const note=document.createElement('div');note.className='load-error';note.textContent='图片暂时没加载出来';const sub=document.createElement('small');sub.textContent='请检查网络连接。你也可以用下方按钮继续。';note.append(sub);parent.append(note);}},true);
   document.addEventListener('visibilitychange',()=>{if(document.hidden){ambient.pause();resetPreview();stopSceneSounds();lastPage?._stopHold?.();}else syncAudio();});
   window.addEventListener('pagehide',()=>{ambient.pause();resetPreview();stopSceneSounds();lastPage?._stopHold?.();});
   new MutationObserver(records=>{
