@@ -4,12 +4,14 @@ import html
 import json
 import re
 from functools import lru_cache
+from urllib.parse import quote
 from PIL import Image, ImageOps
 
 PROJECT = Path(__file__).resolve().parent.parent
 HERE = Path(__file__).resolve().parent
 TITLE = '它们曾存在 · 神明的赠礼'
 IFID = '36B3DFCC-35B5-4163-890F-E7E98B423E62'
+ASSET_BASE = 'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/'
 css = (HERE / 'game.css').read_text(encoding='utf-8')
 script = (HERE / 'game.js').read_text(encoding='utf-8')
 passages = []
@@ -41,9 +43,13 @@ def image_size(path):
         return artwork.size
 
 
+def asset_url(path):
+    return ASSET_BASE + quote('新游戏/' + path, safe='/')
+
+
 def image(path, alt, advance=False):
     width, height = image_size(path)
-    return '<figure class="artwork" style="--image-ratio:' + str(round(width / height, 6)) + '"' + (' data-advance="yes"' if advance else '') + '><img src="' + html.escape(path, quote=True) + '" alt="' + html.escape(alt, quote=True) + '" width="' + str(width) + '" height="' + str(height) + '" decoding="async"></figure>'
+    return '<figure class="artwork" style="--image-ratio:' + str(round(width / height, 6)) + '"' + (' data-advance="yes"' if advance else '') + '><img src="' + html.escape(asset_url(path), quote=True) + '" alt="' + html.escape(alt, quote=True) + '" width="' + str(width) + '" height="' + str(height) + '" decoding="async"></figure>'
 
 
 @lru_cache(maxsize=None)
@@ -215,8 +221,8 @@ roles = [
 ]
 cards = ''
 for key, label, animal, desc, path, target in roles:
-    cards += '<article class="role-card"><span class="role-count" data-role-count="' + key + '">0/3</span><button type="button" class="animal-preview" data-animal="' + key + '" aria-label="试听' + animal + '叫声"><img src="' + path + '" alt="' + animal + '的剪影"><span class="sound-hint">点击动物 · 听见它的声音 ♫</span></button><div class="role-copy"><div class="role-no">' + label + '</div><h2>' + animal + '</h2><p>' + desc + '</p><div class="role-enter">' + link('以它的目光出发 <span>↗</span>', target) + '</div></div></article>'
-add('选择角色', '<section data-scene="选择角色" class="page selection"><div class="eyebrow">PROLOGUE / 序章</div><div class="selection-head"><h1>借一双眼睛</h1><p>点击动物试听叫声，再选择以它的目光出发。</p></div><img class="selection-art" src="' + silhouette('素材/选角/它们.jpg') + '" alt="野猪、猫与鸭子的剪影"><div class="role-grid">' + cards + '</div><footer class="selection-foot"><span>三个故事 · 九个结局 · 你记住的细节，也会改变去向</span><span class="series">它们曾存在 / 神明的赠礼</span></footer></section>')
+    cards += '<article class="role-card"><span class="role-count" data-role-count="' + key + '">0/3</span><button type="button" class="animal-preview" data-animal="' + key + '" aria-label="试听' + animal + '叫声"><img src="' + asset_url(path) + '" alt="' + animal + '的剪影"><span class="sound-hint">点击动物 · 听见它的声音 ♫</span></button><div class="role-copy"><div class="role-no">' + label + '</div><h2>' + animal + '</h2><p>' + desc + '</p><div class="role-enter">' + link('以它的目光出发 <span>↗</span>', target) + '</div></div></article>'
+add('选择角色', '<section data-scene="选择角色" class="page selection"><div class="eyebrow">PROLOGUE / 序章</div><div class="selection-head"><h1>借一双眼睛</h1><p>点击动物试听叫声，再选择以它的目光出发。</p></div><img class="selection-art" src="' + asset_url(silhouette('素材/选角/它们.jpg')) + '" alt="野猪、猫与鸭子的剪影"><div class="role-grid">' + cards + '</div><footer class="selection-foot"><span>三个故事 · 九个结局 · 你记住的细节，也会改变去向</span><span class="series">它们曾存在 / 神明的赠礼</span></footer></section>')
 
 # 野猪：八幅插画，五次撞击，长按喷气，两个结局。
 scene('猪_森林', 'pig', '01', '森林的边界', '新/1在森林.jpg', '从野猪的视角看向幽蓝色的树林',
@@ -302,7 +308,7 @@ scene('鸭_同伴', 'duck', '02', '泥里的那只翅膀', '鸭/鸭2.jpg', '拥�
       '(set: $duckHelp to true)' + para('你停了下来，用身体顶开一点拥挤的空隙。那只鸭子终于把翅膀，从泥里拔了出来。') + para('“谢谢。你也要去争那一粒粮吗？”', 'voice') + para('前面又有人撒下食物。它和你，一起望了过去。', 'thought'), '鸭_争夺', '一起，走进队伍 →', 'duckOpen', progress=43)
 duel = '<div class="interaction" data-task="duel" data-goal="6"><p class="instructions">交替点击左右两只鸭子，冲撞对手，争得粮食。</p><div class="duel">'
 for index, (path, alt) in enumerate([('鸭/4.jpg', '张开翅膀的粉色鸭子'), ('鸭/4 1.jpg', '张开翅膀的紫色鸭子')]):
-    duel += '<button type="button" class="duel-target" data-task-action data-duck-target="' + str(index) + '" aria-label="冲撞' + ('左' if index == 0 else '右') + '侧鸭子"><img src="' + path + '" alt="' + alt + '"><span class="target-label" data-target-life>还需 3 次</span></button>'
+    duel += '<button type="button" class="duel-target" data-task-action data-duck-target="' + str(index) + '" aria-label="冲撞' + ('左' if index == 0 else '右') + '侧鸭子"><img src="' + asset_url(path) + '" alt="' + alt + '"><span class="target-label" data-target-life>还需 3 次</span></button>'
 duel += '</div><div class="duel-status"><span>圣餐 <strong data-grains>0</strong> / 6</span><span>争夺被挑选的资格</span></div><div class="task-track" aria-hidden="true"><span></span></div><p class="task-status" data-task-status role="status" aria-live="polite">向左，或向右。你挤进了争抢的队伍。</p><div class="actions is-locked" data-task-next>' + link('看向你抢到的食物 →', '鸭_粮食') + '</div></div>'
 scene('鸭_争夺', 'duck', '03', '被选中的资格', '鸭/4.jpg', '鸭子争抢神明撒下的粮食',
       '<h1>争夺圣餐</h1>' + para('撕咬、冲撞、踩踏。<br>你和同类，争抢着神明投下的那一粒粮食。', 'voice'), sound='duckInteract', extra=duel, classes='task-duck', progress=50)
@@ -341,7 +347,7 @@ entries = {
 }
 journal = ''
 for key, label, animal, desc, path, target in roles:
-    journal += '<article class="journal-role" data-card-label="' + animal + '"><img src="' + silhouette(path) + '" alt="' + animal + '剪影"><div class="role-no">' + label + '</div><h2>' + animal + '</h2>'
+    journal += '<article class="journal-role" data-card-label="' + animal + '"><img src="' + asset_url(silhouette(path)) + '" alt="' + animal + '剪影"><div class="role-no">' + label + '</div><h2>' + animal + '</h2>'
     for entry_id, title, description in entries[key]:
         journal += '<div class="journal-entry" data-entry="' + entry_id + '" data-description="' + description + '"><span class="entry-state">尚未抵达 / UNDISCOVERED</span><h3>' + title + '</h3><p class="entry-copy">选择另一条路，听见另一个答案。</p></div>'
     journal += '<div class="role-enter">' + link('重走它的故事 ↗', target) + '</div></article>'

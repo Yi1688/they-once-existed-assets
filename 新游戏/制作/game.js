@@ -4,12 +4,12 @@
   let saved={endings:[],muted:false};
   try{const value=JSON.parse(localStorage.getItem(storageKey)||'{}');if(value&&typeof value==='object')saved={endings:Array.isArray(value.endings)?value.endings.filter(x=>typeof x==='string'):[],muted:value.muted===true};}catch(_){}
   const persist=()=>{try{localStorage.setItem(storageKey,JSON.stringify(saved));}catch(_){}};
-  // 猫、鸭的章节音频尚未提供。补齐后只需在这里填写相对文件路径，空值不发起音频请求。
+  // 猫、鸭的章节音频尚未提供。补齐后只需在这里填写 GitHub 原始文件直链，空值不发起音频请求。
   const sceneAudio={
-    pigOpen:'猪音频/猪开场.m4a',pigInteract:'猪音频/猪交互.m4a',pigWorship:'猪音频/猪崇拜.m4a',pigLive:'猪音频/猪存活.m4a',pigFall:'猪音频/猪灭绝.m4a',
+    pigOpen:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%BC%80%E5%9C%BA.m4a',pigInteract:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E4%BA%A4%E4%BA%92.m4a',pigWorship:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%B4%87%E6%8B%9C.m4a',pigLive:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%AD%98%E6%B4%BB.m4a',pigFall:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E7%81%AD%E7%BB%9D.m4a',
     catOpen:null,catInteract:null,catEnd:null,duckOpen:null,duckInteract:null,duckEnd:null
   };
-  const calls={pig:'素材/叫声/野猪叫.mp3',cat:'素材/叫声/猫叫.mp3',duck:'素材/叫声/鸭子叫.mp3'};
+  const calls={pig:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%B4%A0%E6%9D%90/%E5%8F%AB%E5%A3%B0/%E9%87%8E%E7%8C%AA%E5%8F%AB.mp3',cat:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%B4%A0%E6%9D%90/%E5%8F%AB%E5%A3%B0/%E7%8C%AB%E5%8F%AB.mp3',duck:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%B4%A0%E6%9D%90/%E5%8F%AB%E5%A3%B0/%E9%B8%AD%E5%AD%90%E5%8F%AB.mp3'};
   const ambient=new Audio();ambient.loop=true;ambient.preload='none';ambient.volume=.52;
   const preview=new Audio();preview.preload='none';preview.volume=.7;
   let wanted='',active='',unlocked=false,lastPage=null,previewButton=null,previewTimer=0,toastTimer=0,audioContext=null;
@@ -58,7 +58,7 @@
   }
   function revealGod(page){
     const art=page.querySelector('.artwork'),img=art?.querySelector('img');if(!img)return;
-    const preload=new Image();preload.src=safeURL('新/6机器变野猪.jpg');
+    const preload=new Image();preload.src=safeURL('https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E6%96%B0/6%E6%9C%BA%E5%99%A8%E5%8F%98%E9%87%8E%E7%8C%AA.jpg');
     preload.decode().then(()=>{if(page!==lastPage)return;img.src=preload.src;img.alt='第五次撞击之后，机械显出了野猪神明的轮廓';art.dataset.transformed='yes';if(!matchMedia('(prefers-reduced-motion: reduce)').matches)img.animate([{opacity:.25,filter:'brightness(1.8)'},{opacity:1,filter:'brightness(1)'}],{duration:900,easing:'ease-out'});}).catch(()=>{});
   }
   function setupSceneEffects(page){
