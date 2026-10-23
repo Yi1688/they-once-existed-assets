@@ -352,7 +352,7 @@ data = {'ifid': IFID, 'format': 'Harlowe', 'format-version': '3.3.9', 'start': '
 twee = ':: StoryTitle\n' + TITLE + '\n\n:: StoryData\n' + json.dumps(data, ensure_ascii=False, indent=2) + '\n\n'
 for i, (name, body, tags) in enumerate(passages):
     twee += ':: ' + name + (' [' + tags + ']' if tags else '') + ' ' + json.dumps({'position': f'{i % 7 * 240},{i // 7 * 180}', 'size': '180,100'}) + '\n' + body + '\n\n'
-(PROJECT / '新游戏-English.twee').write_text(twee, encoding='utf-8')
+(PROJECT / '新游戏-English.twee').write_text(twee.rstrip() + '\n', encoding='utf-8')
 raw = []
 for i, (name, body, tags) in enumerate(passages):
     if tags in ('stylesheet', 'script'):

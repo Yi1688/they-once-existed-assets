@@ -943,5 +943,3 @@ tw-story{line-height:1.6}
   window.addEventListener('resize',()=>fitPage(lastPage));
   setup();
 })();
-
-
