@@ -6,6 +6,7 @@ import re
 from functools import lru_cache
 from urllib.parse import quote
 from PIL import Image, ImageOps
+from story_expansion import extend_story
 
 PROJECT = Path(__file__).resolve().parent.parent
 HERE = Path(__file__).resolve().parent
@@ -345,13 +346,15 @@ for key, label, animal, desc, path, target in roles:
 add('旅程手记', '<section data-scene="旅程手记" class="page journal" data-sound="themeEnd"><div class="journal-head"><div class="eyebrow">JOURNAL / 结局记录</div><h1>旅程手记</h1><p>已完成 <span data-journal-total>0/6</span> 个结局 · 记录保存在当前浏览器</p></div><div class="journal-grid">' + journal + '</div>' + actions(('返回选角 →', '选择角色'), ('回到首页', '开始')) + '</section>')
 
 
+extend_story(globals(), 'zh')
+
 add('样式', css, 'stylesheet')
 add('游戏交互与声音', script, 'script')
 data = {'ifid': IFID, 'format': 'Harlowe', 'format-version': '3.3.9', 'start': '开始', 'zoom': 0.7}
 twee = ':: StoryTitle\n' + TITLE + '\n\n:: StoryData\n' + json.dumps(data, ensure_ascii=False, indent=2) + '\n\n'
 for i, (name, body, tags) in enumerate(passages):
     twee += ':: ' + name + (' [' + tags + ']' if tags else '') + ' ' + json.dumps({'position': f'{i % 7 * 240},{i // 7 * 180}', 'size': '180,100'}) + '\n' + body + '\n\n'
-(PROJECT / '新游戏.twee').write_text(twee, encoding='utf-8')
+(PROJECT / '新游戏.twee').write_text(twee.rstrip() + '\n', encoding='utf-8')
 raw = []
 for i, (name, body, tags) in enumerate(passages):
     if tags in ('stylesheet', 'script'):

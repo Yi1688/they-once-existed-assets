@@ -2,6 +2,10 @@
 
 Open `新游戏-English.html` in Chrome or Edge to play the English edition. Choose **Begin** on the title screen, then select the Wild Pig, Cat, or Duck. Each character has two endings, for six in total. Observation, exploration, and sharing choices remain available along the way.
 
+Allow about **10–15 minutes for a first tour of all three stories**, reaching one ending per character at a normal reading pace. Each route now takes 20–29 story pages, depending on your choices. The game has 104 visible pages, including 61 new scenes. Replaying for the other endings and exploring every alternative takes longer. The Wild Pig and Cat endings offer a **Next story** button so you can continue through the three stories in order.
+
+The expanded Wild Pig route follows a damaged stream, a fallen shelter, and the attempt to understand the machine. The Cat route follows life in the cages, the journey home, a call for help, and time at the hospital. The Duck route adds the fence, questions about the missing ducks, the crate, and what being selected means. Earlier observations change later dialogue and memories. New scenes use the existing GitHub artwork and chapter audio.
+
 The title, story, dialogue, choices, journal, fact cards, accessibility labels, and interaction messages are in English. The English edition uses the same artwork, music, animal calls, monochrome themes, and animated text as the Chinese edition. The Wild Pig and Duck routes have black backgrounds; the Cat route has a white background.
 
 The HTML is self-contained apart from its media: images and audio load from the existing GitHub raw URLs. You can move or share the HTML file on its own. An internet connection with access to GitHub's raw file service is required.
@@ -35,6 +39,7 @@ python 制作/build_en.py
 ```
 
 - `制作/build_en.py` contains the English story and Harlowe macros.
+- `制作/story_expansion.py` adds the new scenes and choice callbacks in both languages.
 - `制作/game-en.css` adapts the shared layout for English typography.
 - `制作/english_ui.py` translates the shared script's interface messages and CSS hints.
 - `制作/game.css` and `制作/game.js` supply the shared layout, interactions, and audio.

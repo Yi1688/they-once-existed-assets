@@ -7,6 +7,7 @@ from functools import lru_cache
 from urllib.parse import quote
 from PIL import Image, ImageOps
 from english_ui import localize_script, localize_styles
+from story_expansion import extend_story
 
 PROJECT = Path(__file__).resolve().parent.parent
 HERE = Path(__file__).resolve().parent
@@ -345,6 +346,8 @@ for key, label, animal, desc, path, target in roles:
     journal += '<div class="role-enter">' + link('Play again ↗', target) + '</div></article>'
 add('Journal', '<section data-scene="Journal" class="page journal" data-sound="themeEnd"><div class="journal-head"><div class="eyebrow">ENDING RECORDS</div><h1>Journey Journal</h1><p><span data-journal-total>0/6</span> endings found · Saved in this browser</p></div><div class="journal-grid">' + journal + '</div>' + actions(('Back to the cast →', 'Choose a Character'), ('Back to the title', 'Start')) + '</section>')
 
+
+extend_story(globals(), 'en')
 
 add('Styles', css, 'stylesheet')
 add('Interactions and Audio', script, 'script')
