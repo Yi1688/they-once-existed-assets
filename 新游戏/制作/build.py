@@ -191,7 +191,7 @@ def scene(name, role, number, chapter, path, alt, body, next_to=None, next_label
     inner += '<div class="scene-panel"><div class="scene-copy">' + body + (actions((next_label, next_to)) if next_to else '') + '</div>' + extra + '</div>'
     inner += '<div class="chapter-meter" aria-hidden="true"><span style="width:' + str(progress) + '%"></span></div>'
     effects = {'猪_森林': 'forest', '猪_巨兽': 'machine', '猪_靠近': 'machine', '猪_光芒': 'light', '猪_神明': 'revelation', '猪_喷气': 'steam', '猫_色彩': 'colour', '猫_光': 'warmth', '猫_新家': 'warmth', '猫_醒来': 'warmth', '猫_告别': 'farewell', '鸭_泥沼': 'halo', '鸭_神迹': 'halo', '鸭_天平': 'scales', '鸭_祭司': 'altar'}
-    attrs = ' data-sound="' + sound + '"' + (' data-ending="' + ending + '"' if ending else '') + (' data-fx="' + effects[name] + '"' if name in effects else '')
+    attrs = ' data-sound="' + ('themeEnd' if ending else sound) + '"' + (' data-ending="' + ending + '"' if ending else '') + (' data-fx="' + effects[name] + '"' if name in effects else '')
     reset = {'猪_森林': '(set: $pigTrail to false)(set: $pigOil to false)', '猫_牢笼': '(set: $catTag to false)', '鸭_泥沼': '(set: $duckHelp to false)(set: $duckShare to false)'}.get(name, '')
     add(name, reset + '<section data-scene="' + name + '" class="page scene-stage role-' + role + ' ' + classes + '"' + attrs + '>' + inner + '</section>')
 
@@ -205,7 +205,18 @@ def ending_tail():
 
 
 add('初始化', '(set: $pigTrail to false)(set: $pigOil to false)(set: $catTag to false)(set: $duckHelp to false)(set: $duckShare to false)', 'startup')
-add('页眉', '<header class="mast"><span class="brand"><em>✧</em><span>THEY ONCE EXISTED</span><span class="series-label"> / 神明的赠礼</span></span><nav aria-label="游戏导航"><button type="button" class="audio-toggle" data-audio-toggle aria-pressed="true">声音：开</button>' + link('选角', '选择角色') + link('手记 <span class="journal-number" data-journal-total>0/6</span>', '旅程手记') + '</nav></header>', 'header')
+add('页眉', '<header class="mast"><span class="brand"><em>✧</em><span>THEY ONCE EXISTED</span><span class="series-label"> / 神明的赠礼</span></span><nav aria-label="游戏导航"><button type="button" class="audio-toggle" data-audio-toggle aria-pressed="true">声音：开</button>' + link('首页', '开始') + link('选角', '选择角色') + link('手记 <span class="journal-number" data-journal-total>0/6</span>', '旅程手记') + '</nav></header>', 'header')
+
+title_portals = ''
+for key, number, label, animal, path, line in [
+    ('pig', 'I', 'FOREST', '野猪', '素材/选角/野猪.jpg', '“这家伙怎么连树都咬得断？”'),
+    ('cat', 'II', 'HOME', '猫', '素材/选角/猫.jpg', '“这里就是我的家了吗？”'),
+    ('duck', 'III', 'ALTAR', '鸭子', '素材/选角/鸭子.jpg', '“被选中以后，真的能去天堂？”'),
+]:
+    title_portals += '<button type="button" class="title-portal portal-' + key + '" data-animal="' + key + '" data-title-line="' + line + '" aria-label="试听' + animal + '叫声"><span class="portal-number">' + number + '</span><span class="portal-halo" aria-hidden="true"></span><img src="' + asset_url(silhouette(path)) + '" alt="' + animal + '的剪影" width="240" height="200"><span class="portal-caption"><strong>' + animal + '</strong><small>' + label + '</small></span></button>'
+title_art = '<div class="title-visual"><div class="title-orbit" aria-hidden="true"><div class="orbit-ring ring-outer"></div><div class="orbit-ring ring-inner"></div><div class="orbit-cross"></div><span class="orbit-star star-north">✦</span><span class="orbit-star star-south">✧</span></div><div class="title-portals">' + title_portals + '</div><p class="title-scene-caption" data-title-caption>“那真的是神吗？”</p></div>'
+title_copy = '<div class="title-copy"><div class="title-heading"><p class="title-overline">AN INTERACTIVE FABLE / 交互寓言</p><h1 class="title-wordmark"><span>它们</span><span>曾存在<span class="title-mark" aria-hidden="true">✦</span></span></h1><p class="title-english">THEY ONCE EXISTED</p><h2 class="title-subtitle">神明的赠礼</h2><p class="title-invitation">森林、笼子、围栏。<br>这一次，从它们的眼里看。</p></div><div class="title-controls">' + actions(('开始游戏 <span aria-hidden="true">↗</span>', '选择角色'), ('旅程手记', '旅程手记')) + '<button type="button" class="title-listen" data-start-listening><span class="title-equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span data-title-audio-status>点击开启音乐</span></button></div></div>'
+add('开始', '<section data-scene="开始" class="page title-screen" data-sound="themeOpen"><canvas class="title-dust" aria-hidden="true"></canvas><div class="title-light" aria-hidden="true"></div><div class="title-main">' + title_copy + title_art + '</div><footer class="title-footer"><span>三个故事 · 六个结局</span><span>点击动物 · 试听叫声</span><span class="title-edition">神明的赠礼 / CHAPTER II</span></footer></section>')
 
 roles = [
     ('pig', '01 / THE FOREST', '野猪', '林子外来了个大家伙。<br>你从没见过这样的动物。', '素材/选角/野猪.jpg', '猪_森林'),
@@ -215,7 +226,7 @@ roles = [
 cards = ''
 for key, label, animal, desc, path, target in roles:
     cards += '<article class="role-card"><span class="role-count" data-role-count="' + key + '">0/2</span><button type="button" class="animal-preview" data-animal="' + key + '" aria-label="试听' + animal + '叫声"><img src="' + asset_url(path) + '" alt="' + animal + '的剪影"><span class="sound-hint">点击动物 · 试听叫声 ♫</span></button><div class="role-copy"><div class="role-no">' + label + '</div><h2>' + animal + '</h2><p>' + desc + '</p><div class="role-enter">' + link('开始它的故事 <span>↗</span>', target) + '</div></div></article>'
-add('选择角色', '<section data-scene="选择角色" class="page selection"><div class="eyebrow">PROLOGUE / 序章</div><div class="selection-head"><h1>从它的眼睛看</h1><p>选一个角色，看看接下来会发生什么。</p></div><img class="selection-art" src="' + asset_url(silhouette('素材/选角/它们.jpg')) + '" alt="野猪、猫与鸭子的剪影"><div class="role-grid">' + cards + '</div><footer class="selection-foot"><span>三个故事 · 每个故事两个结局 · 带下划线的文字可以点击</span><span class="series">它们曾存在 / 神明的赠礼</span></footer></section>')
+add('选择角色', '<section data-scene="选择角色" class="page selection" data-sound="themeOpen"><div class="eyebrow">PROLOGUE / 序章</div><div class="selection-head"><h1>从它的眼睛看</h1><p>选一个角色，看看接下来会发生什么。</p></div><img class="selection-art" src="' + asset_url(silhouette('素材/选角/它们.jpg')) + '" alt="野猪、猫与鸭子的剪影"><div class="role-grid">' + cards + '</div><footer class="selection-foot"><span>三个故事 · 每个故事两个结局 · 带下划线的文字可以点击</span><span class="series">它们曾存在 / 神明的赠礼</span></footer></section>')
 
 # 野猪：保留观察支线，结尾只保留离开与留下。
 scene('猪_森林', 'pig', '01', '林子外的声音', '新/1在森林.jpg', '从野猪的视角看向幽蓝色的树林',
@@ -331,12 +342,12 @@ for key, label, animal, desc, path, target in roles:
     for entry_id, title, description in entries[key]:
         journal += '<div class="journal-entry" data-entry="' + entry_id + '" data-description="' + description + '"><span class="entry-state">尚未完成 / UNDISCOVERED</span><h3>' + title + '</h3><p class="entry-copy">走完这条路线后，这里会记下结局。</p></div>'
     journal += '<div class="role-enter">' + link('再玩一次 ↗', target) + '</div></article>'
-add('旅程手记', '<section data-scene="旅程手记" class="page journal"><div class="journal-head"><div class="eyebrow">JOURNAL / 结局记录</div><h1>旅程手记</h1><p>已完成 <span data-journal-total>0/6</span> 个结局 · 记录保存在当前浏览器</p></div><div class="journal-grid">' + journal + '</div>' + actions(('返回选角 →', '选择角色')) + '</section>')
+add('旅程手记', '<section data-scene="旅程手记" class="page journal" data-sound="themeEnd"><div class="journal-head"><div class="eyebrow">JOURNAL / 结局记录</div><h1>旅程手记</h1><p>已完成 <span data-journal-total>0/6</span> 个结局 · 记录保存在当前浏览器</p></div><div class="journal-grid">' + journal + '</div>' + actions(('返回选角 →', '选择角色'), ('回到首页', '开始')) + '</section>')
 
 
 add('样式', css, 'stylesheet')
 add('游戏交互与声音', script, 'script')
-data = {'ifid': IFID, 'format': 'Harlowe', 'format-version': '3.3.9', 'start': '选择角色', 'zoom': 0.7}
+data = {'ifid': IFID, 'format': 'Harlowe', 'format-version': '3.3.9', 'start': '开始', 'zoom': 0.7}
 twee = ':: StoryTitle\n' + TITLE + '\n\n:: StoryData\n' + json.dumps(data, ensure_ascii=False, indent=2) + '\n\n'
 for i, (name, body, tags) in enumerate(passages):
     twee += ':: ' + name + (' [' + tags + ']' if tags else '') + ' ' + json.dumps({'position': f'{i % 7 * 240},{i // 7 * 180}', 'size': '180,100'}) + '\n' + body + '\n\n'
@@ -346,7 +357,7 @@ for i, (name, body, tags) in enumerate(passages):
     if tags in ('stylesheet', 'script'):
         continue
     raw.append(f'<tw-passagedata pid="{i + 1}" name="{html.escape(name, quote=True)}" tags="{tags}" position="{i % 7 * 240},{i // 7 * 180}" size="180,100">{html.escape(body)}</tw-passagedata>')
-start = next(i + 1 for i, p in enumerate(passages) if p[0] == '选择角色')
+start = next(i + 1 for i, p in enumerate(passages) if p[0] == '开始')
 story = f'<tw-storydata name="{TITLE}" startnode="{start}" creator="Twine" creator-version="2.10.0" ifid="{IFID}" format="Harlowe" format-version="3.3.9" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">{css}</style><script role="script" id="twine-user-script" type="text/twine-javascript">{script}</script>{"".join(raw)}</tw-storydata>'
 template = json.loads((HERE / 'harlowe-3.3.9.json').read_text(encoding='utf-8'))['source']
 output = template.replace('{{STORY_NAME}}', TITLE).replace('{{STORY_DATA}}', story)

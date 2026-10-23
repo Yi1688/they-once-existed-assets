@@ -8,6 +8,8 @@
   persist();
   // 三条路线按章节播放 GitHub 原始文件直链。同一音频跨页面继续播放，切换章节时停止上一段。
   const sceneAudio={
+    themeOpen:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/audio/Hollow%20Knight.mp3?v=b1da8ecb9484',
+    themeEnd:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/audio/%E3%81%8B%E3%81%9F%E3%82%8F%E3%82%8C%E6%99%82.m4a?v=76da2363fc9c',
     pigOpen:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%BC%80%E5%9C%BA.m4a',pigInteract:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E4%BA%A4%E4%BA%92.m4a',pigWorship:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%B4%87%E6%8B%9C.m4a',pigLive:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%AD%98%E6%B4%BB.m4a',pigFall:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E7%81%AD%E7%BB%9D.m4a',
     catOpen:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AB%E5%BC%80%E5%9C%BA.m4a',
     catInteract:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AB%E5%90%83%E8%8D%AF.m4a',
@@ -26,19 +28,30 @@
   let wanted='',active='',unlocked=false,lastPage=null,previewButton=null,previewTimer=0,toastTimer=0,audioContext=null;
   let sceneSoundTimers=[];
   const safeURL=path=>new URL(path,document.baseURI).href;
+  const normalVolume=()=>wanted.startsWith('theme')?.26:.52;
+  function syncTitleSound(){
+    const title=document.querySelector('.title-screen');if(!title)return;
+    const playing=!saved.muted&&!ambient.paused&&!ambient.error;
+    title.classList.toggle('is-sounding',playing);
+    const label=title.querySelector('[data-title-audio-status]'),message=saved.muted?'音乐已关闭，点击开启':!unlocked?'点击开启音乐':ambient.error?'音乐暂时没加载好，点击重试':playing?'音乐已开启':'正在加载音乐…';
+    if(label&&label.textContent!==message)label.textContent=message;
+  }
   function resetPreview(){preview.pause();if(previewButton)previewButton.classList.remove('is-playing');previewButton=null;clearTimeout(previewTimer);}
   function syncAudio(){
     document.querySelectorAll('[data-audio-toggle]').forEach(b=>{b.textContent=saved.muted?'声音：关':'声音：开';b.classList.toggle('is-off',saved.muted);b.setAttribute('aria-pressed',String(!saved.muted));b.setAttribute('aria-label',saved.muted?'打开声音':'关闭声音');});
     ambient.muted=saved.muted;preview.muted=saved.muted;
-    if(saved.muted||!unlocked){ambient.pause();return;}
+    if(saved.muted||!unlocked){ambient.pause();syncTitleSound();return;}
     const source=sceneAudio[wanted]||'';
-    if(!source){ambient.pause();active='';ambient.removeAttribute('src');ambient.load();return;}
+    if(!source){ambient.pause();active='';ambient.removeAttribute('src');ambient.load();syncTitleSound();return;}
     if(active!==source){ambient.pause();ambient.src=safeURL(source);active=source;}
+    ambient.volume=previewButton?.12:normalVolume();
     if(ambient.paused)ambient.play().catch(()=>{});
+    syncTitleSound();
   }
   function toast(message){document.querySelector('.sound-toast')?.remove();clearTimeout(toastTimer);const el=document.createElement('div');el.className='sound-toast';el.setAttribute('role','status');el.textContent=message;document.body.append(el);toastTimer=setTimeout(()=>el.remove(),1900);}
-  function playCall(animal,button){if(saved.muted){toast('声音已关闭');return;}const source=calls[animal];if(!source)return;resetPreview();previewButton=button;button.classList.add('is-playing');preview.src=safeURL(source);ambient.volume=.2;preview.play().then(()=>{previewTimer=setTimeout(resetPreview,4500);}).catch(()=>resetPreview());}
-  preview.addEventListener('ended',()=>{resetPreview();ambient.volume=.52;});preview.addEventListener('pause',()=>{ambient.volume=.52;});preview.addEventListener('error',resetPreview);
+  function playCall(animal,button){if(saved.muted){toast('声音已关闭');return;}const source=calls[animal];if(!source)return;resetPreview();previewButton=button;button.classList.add('is-playing');preview.src=safeURL(source);ambient.volume=.12;preview.play().then(()=>{previewTimer=setTimeout(resetPreview,4500);}).catch(()=>resetPreview());}
+  preview.addEventListener('ended',()=>{resetPreview();ambient.volume=normalVolume();});preview.addEventListener('pause',()=>{ambient.volume=normalVolume();});preview.addEventListener('error',()=>{resetPreview();ambient.volume=normalVolume();});
+  for(const event of ['playing','pause','error','emptied'])ambient.addEventListener(event,syncTitleSound);
   function sound(kind){
     if(saved.muted||!unlocked)return;
     try{
@@ -104,6 +117,29 @@
         node.replaceWith(fragment);
       });
     });
+  }
+  function setupTitle(page){
+    if(!page.classList.contains('title-screen'))return;
+    const caption=page.querySelector('[data-title-caption]'),defaultLine=caption.textContent;
+    const show=button=>{caption.textContent=button?.dataset.titleLine||defaultLine;page.dataset.focus=button?.dataset.animal||'';};
+    page.querySelectorAll('.title-portal').forEach(button=>{
+      button.addEventListener('pointerenter',()=>show(button));button.addEventListener('focus',()=>show(button));
+      button.addEventListener('pointerleave',()=>{if(document.activeElement!==button)show(null);});button.addEventListener('blur',()=>show(null));
+    });
+    const canvas=page.querySelector('.title-dust'),context=canvas.getContext('2d');if(!context)return;
+    const motion=matchMedia('(prefers-reduced-motion: reduce)');let frame=0,width=1,height=1,last=0,clock=0,destroyed=false;
+    const dots=Array.from({length:54},()=>({x:Math.random(),y:Math.random(),size:.4+Math.random()*1.1,speed:2+Math.random()*6,phase:Math.random()*Math.PI*2}));
+    function draw(now){
+      frame=0;if(destroyed)return;
+      const delta=last?Math.min((now-last)/1000,.05):0;last=now;clock+=delta;context.clearRect(0,0,width,height);
+      for(const dot of dots){if(!motion.matches)dot.y=(dot.y-dot.speed*delta/height+1)%1;const alpha=.16+(Math.sin(clock*.7+dot.phase)+1)*.16;context.fillStyle='rgba(255,255,255,'+alpha+')';context.beginPath();context.arc(dot.x*width,dot.y*height,dot.size,0,Math.PI*2);context.fill();}
+      if(!motion.matches&&!document.hidden)frame=requestAnimationFrame(draw);
+    }
+    const pause=()=>{cancelAnimationFrame(frame);frame=0;last=0;};
+    const resume=()=>{if(!destroyed&&!frame){last=0;frame=requestAnimationFrame(draw);}};
+    const size=()=>{const rect=canvas.getBoundingClientRect(),ratio=Math.min(devicePixelRatio||1,2);width=Math.max(1,rect.width);height=Math.max(1,rect.height);canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);context.setTransform(ratio,0,0,ratio,0,0);pause();resume();};
+    const observer=new ResizeObserver(size);observer.observe(canvas);motion.addEventListener('change',size);size();
+    page._pauseTitle=pause;page._resumeTitle=resume;page._stopTitle=()=>{destroyed=true;pause();observer.disconnect();motion.removeEventListener('change',size);};
   }
   function syncProgress(){
     document.querySelectorAll('[data-journal-total]').forEach(el=>el.textContent=saved.endings.length+'/'+validEndings.length);
@@ -194,12 +230,13 @@
   }
   function setup(){
     const pages=[...document.querySelectorAll('tw-passage .page')];const page=pages[pages.length-1];if(!page||page===lastPage)return false;
-    lastPage?._stopHold?.();lastPage=page;resetPreview();wanted=page.dataset.sound||'';
+    lastPage?._stopHold?.();lastPage?._stopTitle?.();lastPage=page;resetPreview();wanted=page.dataset.sound||'';
     document.documentElement.dataset.role=['pig','cat','duck'].find(role=>page.classList.contains('role-'+role))||'selection';
+    document.documentElement.dataset.view=page.classList.contains('title-screen')?'title':'story';
     const ending=page.dataset.ending;if(validEndings.includes(ending)&&!saved.endings.includes(ending)){saved.endings.push(ending);persist();}
     syncProgress();syncAudio();
     page.querySelectorAll('[data-task]').forEach(task=>setupTask(task,page));
-    setupCardTabs(page);setupSceneEffects(page);setupTextEffects(page);fitPage(page);
+    setupCardTabs(page);setupSceneEffects(page);setupTextEffects(page);fitPage(page);setupTitle(page);
     page.querySelectorAll('.artwork[data-advance]').forEach(art=>{const next=page.querySelector('.actions tw-link');if(!next)return;art.classList.add('is-clickable');art.tabIndex=0;art.setAttribute('role','button');art.setAttribute('aria-label','继续故事');const advance=()=>{if(page!==lastPage)return;next.click();};art.addEventListener('click',advance);art.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();advance();}});});
     window.scrollTo({top:0,behavior:'instant'});
     const heading=page.querySelector('h1');if(heading){heading.tabIndex=-1;heading.focus({preventScroll:true});}
@@ -212,16 +249,18 @@
   document.addEventListener('pointercancel',()=>lastPage?._stopHold?.(),{capture:true});
   window.addEventListener('blur',()=>lastPage?._stopHold?.());
   document.addEventListener('click',event=>{
+    if(event.target.closest('[data-start-listening]')){unlocked=true;saved.muted=false;persist();if(ambient.error)ambient.load();syncAudio();return;}
     const toggle=event.target.closest('[data-audio-toggle]');if(toggle){saved.muted=!saved.muted;persist();if(saved.muted){resetPreview();stopSceneSounds();}else if(lastPage)startSceneSounds(lastPage);syncAudio();return;}
     const call=event.target.closest('[data-animal]');if(call)playCall(call.dataset.animal,call);
   });
   document.addEventListener('error',event=>{const img=event.target;if(img.tagName!=='IMG'||img.dataset.failed)return;img.dataset.failed='yes';const parent=img.closest('.artwork');if(parent){const note=document.createElement('div');note.className='load-error';note.textContent='图片暂时没加载出来';const sub=document.createElement('small');sub.textContent='请检查网络连接。你也可以用下方按钮继续。';note.append(sub);parent.append(note);}},true);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){ambient.pause();resetPreview();stopSceneSounds();lastPage?._stopHold?.();}else syncAudio();});
-  window.addEventListener('pagehide',()=>{ambient.pause();resetPreview();stopSceneSounds();lastPage?._stopHold?.();});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){ambient.pause();resetPreview();stopSceneSounds();lastPage?._stopHold?.();lastPage?._pauseTitle?.();}else{syncAudio();lastPage?._resumeTitle?.();}});
+  window.addEventListener('pagehide',()=>{ambient.pause();resetPreview();stopSceneSounds();lastPage?._stopHold?.();lastPage?._pauseTitle?.();});
+  window.addEventListener('pageshow',()=>{if(lastPage){syncAudio();lastPage._resumeTitle?.();}});
   new MutationObserver(records=>{
     if(setup())return;
     // Counter updates use reserved space; only expanded story content needs a new fit.
-    if(records.some(record=>lastPage?.contains(record.target)&&!record.target.closest?.('[data-task], [data-role-count], [data-journal-total], .card-tabs, .story-whisper, .typewriter-line, .word-slot')))fitPage(lastPage);
+    if(records.some(record=>lastPage?.contains(record.target)&&!record.target.closest?.('[data-task], [data-role-count], [data-journal-total], .card-tabs, .story-whisper, .typewriter-line, .word-slot, .title-scene-caption, .title-listen')))fitPage(lastPage);
   }).observe(document.documentElement,{subtree:true,childList:true});
   window.addEventListener('resize',()=>fitPage(lastPage));
   setup();
