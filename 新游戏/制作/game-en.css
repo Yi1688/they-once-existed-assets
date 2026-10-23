@@ -1,0 +1,105 @@
+/* English typography shares the artwork, palettes, and effects with the Chinese edition. */
+body{font-family:"Segoe UI",Arial,sans-serif}
+tw-story{line-height:1.6}
+.mast,.mast nav{letter-spacing:.03em}
+.brand{letter-spacing:.06em}
+.series-label{letter-spacing:.02em}
+.eyebrow,.role-no{letter-spacing:.15em}
+.selection .selection-head h1,.selection-head h1{font-family:Georgia,"Times New Roman",serif;letter-spacing:.025em;font-size:clamp(28px,3.5vw,54px)}
+.selection-head p,.selection .selection-head p{letter-spacing:0;line-height:1.6}
+.role-card h2,.selection .role-card h2,.journal-role h2{font-family:Georgia,"Times New Roman",serif;letter-spacing:.03em}
+.role-card p,.selection .role-card p{line-height:1.6}
+.sound-hint,.selection-foot{letter-spacing:0}
+.scene-copy{max-width:1040px}
+.scene-copy h1,.ending .scene-copy h1{font-family:Georgia,"Times New Roman",serif;letter-spacing:.015em;line-height:1.2}
+.scene-copy p{line-height:1.6}
+.scene-copy .voice{font-family:Georgia,"Times New Roman",serif;line-height:1.5}
+.scene-copy .thought{line-height:1.55}
+.chapter{letter-spacing:.03em}
+.chapter small{letter-spacing:.08em}
+.actions tw-link,.action-button,.hold-button{letter-spacing:.02em}
+.choice-title{letter-spacing:0;line-height:1.35}
+.choice-detail{line-height:1.45}
+.memory{line-height:1.5}
+.memory>span,.whisper-label,.entry-state{letter-spacing:.1em}
+.story-whisper{max-width:760px}
+.whisper-copy{height:3.4em;line-height:1.7}
+.whisper-label{letter-spacing:.06em}
+.whisper-action{letter-spacing:0}
+.ending .closing{font-family:Georgia,"Times New Roman",serif;letter-spacing:.015em;line-height:1.4;font-size:clamp(20px,1.8vw,27px)}
+.ending .ending-note{line-height:1.6}
+.fact h2{line-height:1.4}
+.fact p{line-height:1.65}
+.facts-note{line-height:1.5}
+.journal-head h1{font-family:Georgia,"Times New Roman",serif;letter-spacing:.02em}
+.journal-entry h3{line-height:1.35}
+.journal-entry p{line-height:1.65}
+.title-overline{letter-spacing:.2em}
+.title-wordmark{font-family:Georgia,"Times New Roman",serif;font-size:clamp(48px,8.5dvh,96px);line-height:1.12;letter-spacing:-.035em}
+.title-wordmark>span:last-child{padding-left:.18em}
+.title-english{letter-spacing:.21em}
+.title-subtitle{font-family:Georgia,"Times New Roman",serif;font-size:clamp(18px,2.7dvh,26px);letter-spacing:.08em;line-height:1.4}
+.title-invitation{letter-spacing:.035em;line-height:1.8}
+.title-controls .actions>span:first-child tw-link{letter-spacing:.12em}
+.portal-caption strong{font-family:Georgia,"Times New Roman",serif;letter-spacing:.09em;text-indent:0}
+.title-scene-caption{font-family:Georgia,"Times New Roman",serif;letter-spacing:.015em}
+.title-footer{letter-spacing:.03em}
+.fit-compact .scene-copy h1,.fit-compact .ending .scene-copy h1{letter-spacing:.015em}
+.fit-compact .scene-copy .closing{letter-spacing:0}
+@media(max-width:1050px){.brand .series-label{display:none}}
+@media(max-width:700px){
+ .title-wordmark{display:block;font-size:clamp(35px,5.3dvh,47px);line-height:1.03;letter-spacing:-.025em}
+ .title-wordmark>span{margin-left:auto;margin-right:auto}
+ .title-wordmark>span:last-child{padding-left:0}
+ .title-english{font-size:7px;letter-spacing:.17em;margin-top:10px}
+ .title-subtitle{font-size:19px;letter-spacing:.04em;margin:9px 0;line-height:1.4}
+ .title-invitation{font-size:11px;line-height:1.6;letter-spacing:0}
+ .title-scene-caption{font-size:12px;padding-left:16px;padding-right:16px}
+ .title-listen{font-size:9px;letter-spacing:.02em}
+ .title-controls .actions>span:last-child tw-link{letter-spacing:0}
+ .title-footer{font-size:8px;letter-spacing:0}
+}
+@media(max-width:600px){
+ .mast{gap:8px}
+ .mast nav{gap:9px;letter-spacing:0}
+ .mast .brand{font-size:8.5px;letter-spacing:0;gap:5px}
+ .mast tw-link,.mast .audio-toggle{font-size:10px;white-space:nowrap}
+ .selection-head h1,.selection .selection-head h1{font-size:28px;letter-spacing:.015em;line-height:1.2}
+ .role-card h2,.fit-compact .role-card h2{font-size:22px;letter-spacing:.02em}
+ .role-card p{line-height:1.5}
+ .role-enter{font-size:12px}
+ .scene-copy h1,.ending .scene-copy h1{font-size:25px;letter-spacing:.015em}
+ .scene-copy .voice{font-size:17px;line-height:1.5}
+ .scene-copy p{line-height:1.55}
+ .scene-copy .thought{line-height:1.5}
+ .story-choices tw-link{min-height:78px;gap:6px;padding:10px 22px 10px 11px}
+ .choice-title{font-size:12px;line-height:1.35}
+ .choice-detail{font-size:11px;line-height:1.4}
+ .actions tw-link,.action-button,.hold-button{letter-spacing:0}
+ .ending .closing{font-size:20px;line-height:1.35}
+ .journal-head h1,.fit-compact .journal-head h1{font-size:28px;letter-spacing:.01em;line-height:1.3}
+ .journal-role h2{letter-spacing:.02em}
+ .fit-compact .scene-copy h1{font-size:22px;line-height:1.2}
+ .fit-compact .choice-title{font-size:12px;line-height:1.35}
+ .fit-compact .choice-detail{font-size:10px;line-height:1.4}
+ .fit-compact .scene-copy .closing{font-size:18px}
+}
+@media(max-height:600px) and (min-width:701px){
+ .title-wordmark{font-size:clamp(32px,10dvh,56px)}
+ .title-subtitle{font-size:17px;letter-spacing:.03em}
+ .title-invitation{font-size:11px;letter-spacing:0}
+ .title-overline{font-size:8px;letter-spacing:.15em}
+ .title-footer{font-size:8px}
+ .journal-head h1{font-size:26px;letter-spacing:.01em}
+ .scene-copy h1,.ending .scene-copy h1{font-size:25px}
+}
+@media(max-height:600px) and (max-width:700px){
+ .title-wordmark{font-size:32px;line-height:1.02}
+ .title-english{font-size:6px;margin-top:6px;letter-spacing:.14em}
+ .title-subtitle{font-size:16px;margin:6px 0;letter-spacing:.025em}
+ .title-invitation{font-size:10px;line-height:1.5}
+ .title-overline{letter-spacing:.12em}
+ .title-scene-caption{font-size:10px}
+ .title-listen{font-size:8px}
+ .title-footer{font-size:7px}
+}

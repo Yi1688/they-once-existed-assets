@@ -15,6 +15,9 @@
 下载 `新游戏/新游戏.html` 后用浏览器打开即可游玩。图片与现有音频通过 GitHub 原始文件直链加载，HTML 可以单独移动或分享，游玩时需要联网并能访问 GitHub 原始文件服务。GitHub 文件页面显示 HTML 源码，需要下载后在浏览器中打开。
 
 - [游戏 HTML](新游戏/新游戏.html)
+- [English edition / 英文版 HTML](新游戏/新游戏-English.html)
+- [English Twine / Twee](新游戏/新游戏-English.twee)
+- [English instructions](新游戏/README-English.md)
 - [Twine / Twee 源文件](新游戏/新游戏.twee)
 - [使用说明](新游戏/使用说明.txt)
 - [制作源码](新游戏/制作/)
@@ -24,5 +27,7 @@
 
 角色音频素材共十五段，另有三种动物叫声及两首上作配乐，均使用 GitHub 原始文件直链。开始界面与选角沿用上作开场曲 `Hollow Knight.mp3`，六个最终结局与旅程手记沿用上作收尾曲 `かたわれ時.m4a`，同曲跨页继续播放。猫与鸭子新增的十段章节音频继续按剧情场景接入，野猪原有存活和灭绝音频保留为素材。
 
-重新构建需要 Python 3 和 Pillow：安装 `Pillow` 后运行 `python 新游戏/制作/build.py`。Harlowe 3.3.9 格式文件已包含在制作目录中。
+英文版标题为 *They Once Existed · A Gift from the Gods*，包含全部 43 个页面、六个结局、观察分支、动态文字和互动提示。英文版有独立 Twine IFID 与存档，保留同一套图片、音乐和主题。
+
+重新构建需要 Python 3 和 Pillow：安装 `Pillow` 后，中文版运行 `python 新游戏/制作/build.py`，英文版运行 `python 新游戏/制作/build_en.py`。Harlowe 3.3.9 格式文件已包含在制作目录中。
 构建时保留本地图片，用于读取尺寸和生成剪影；生成的 HTML 与 Twee 均使用 GitHub 直链。新增或替换素材后，请同步上传到仓库的「新游戏」目录。
