@@ -1,6 +1,6 @@
 # They Once Existed · A Gift from the Gods
 
-Open `新游戏-English.html` in Chrome or Edge to play the English edition. Choose **Begin** on the title screen, then select the Wild Pig, Cat, or Duck. Each character has two endings, for six in total. Observation, exploration, and sharing choices remain available along the way.
+Open `They Once Existed A Gift from the Gods.html` in Chrome or Edge to play the English edition. `新游戏-English.html` contains the same game; rebuilding updates both files together. Choose **Begin** on the title screen, then select the Wild Pig, Cat, or Duck. Each character has two endings, for six in total. Observation, exploration, and sharing choices remain available along the way.
 
 Allow about **10–15 minutes for a first tour of all three stories**, reaching one ending per character at a normal reading pace. Each route now takes 20–29 story pages, depending on your choices. The game has 104 visible pages, including 61 new scenes. Replaying for the other endings and exploring every alternative takes longer. The Wild Pig and Cat endings offer a **Next story** button so you can continue through the three stories in order.
 

@@ -369,4 +369,5 @@ output = re.sub(r'<html(?:\s[^>]*)?>', '<html lang="en">', output, count=1)
 if 'name="viewport"' not in output:
     output = output.replace('</head>', '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"></head>')
 (PROJECT / '新游戏-English.html').write_text(output, encoding='utf-8')
+(PROJECT / 'They Once Existed A Gift from the Gods.html').write_text(output, encoding='utf-8')
 print('Built', len(raw), 'passages;', len(output.encode('utf-8')), 'bytes; Twine/Harlowe 3.3.9')
