@@ -1,8 +1,8 @@
 # They Once Existed · A Gift from the Gods
 
-Open `新游戏-English.html` in Chrome or Edge to play the English edition. Choose **Begin** on the title screen, then select the Boar, Cat, or Duck. Each character has two endings, for six in total. Observation, exploration, and sharing choices remain available along the way.
+Open `新游戏-English.html` in Chrome or Edge to play the English edition. Choose **Begin** on the title screen, then select the Wild Pig, Cat, or Duck. Each character has two endings, for six in total. Observation, exploration, and sharing choices remain available along the way.
 
-The title, story, dialogue, choices, journal, fact cards, accessibility labels, and interaction messages are in English. The English edition uses the same artwork, music, animal calls, monochrome themes, and animated text as the Chinese edition. The Boar and Duck routes have black backgrounds; the Cat route has a white background.
+The title, story, dialogue, choices, journal, fact cards, accessibility labels, and interaction messages are in English. The English edition uses the same artwork, music, animal calls, monochrome themes, and animated text as the Chinese edition. The Wild Pig and Duck routes have black backgrounds; the Cat route has a white background.
 
 The HTML is self-contained apart from its media: images and audio load from the existing GitHub raw URLs. You can move or share the HTML file on its own. An internet connection with access to GitHub's raw file service is required.
 
@@ -12,7 +12,7 @@ The HTML is self-contained apart from its media: images and audio load from the 
 - Click underlined text to change it or look closer. Click a typing line to reveal the whole sentence.
 - Click an animal on the title or character screen to hear its call.
 - **Home** returns to the title, **Cast** opens character selection, and **Journal** shows your endings.
-- The Boar's charge requires five strikes. Hold the mist button for about two seconds; releasing it keeps your progress. You can also hold Space or Enter.
+- The Wild Pig's charge requires five strikes. Hold the mist button for about two seconds; releasing it keeps your progress. You can also hold Space or Enter.
 - During the Duck's scramble, alternate between the left and right ducks for six successful pushes.
 - On small screens, use the tabs to switch between fact cards or character journals. The complete page fits the window without scrolling.
 

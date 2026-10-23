@@ -12,7 +12,7 @@ SCRIPT_TEXT = {
     '声音：关': 'Sound: off', '声音：开': 'Sound: on',
     '打开声音': 'Turn sound on', '关闭声音': 'Turn sound off',
     '声音已关闭': 'Sound is off',
-    '第五次撞击之后，机械显出了野猪神明的轮廓': 'After the fifth strike, the machine takes the shape of a boar god',
+    '第五次撞击之后，机械显出了野猪神明的轮廓': 'After the fifth strike, the machine takes the shape of a wild pig god',
     '猫_牢笼': 'Cat-Cage', '听听牢笼里的猫叫': 'Listen to the cat in the cage',
     '已完成 / DISCOVERED': 'DISCOVERED', '尚未完成 / UNDISCOVERED': 'UNDISCOVERED',
     '走完这条路线后，这里会记下结局。': 'Finish this route to record its ending here.',

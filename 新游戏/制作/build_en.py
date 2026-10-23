@@ -109,7 +109,7 @@ def enrich_scene(name, body):
     replacements = {
         'Boar-Forest': ('Not thunder', cycling('Not thunder', 'Not the wind either', 'Never heard that before')),
         'Boar-Lights': ('blinding yellow light', styled('blinding yellow light')),
-        'Boar-God': ('the boar god', styled('the boar god', 'outline')),
+        'Boar-God': ('the wild pig god', styled('the wild pig god', 'outline')),
         'Cat-Label': ('Healthy and lively', '|health>[Healthy and lively]'),
         'Cat-Food': ('a little strange', cycling('a little strange', 'a little bitter', "as if something's been mixed in")),
         'Cat-Color': ('the world has turned to color', '(text-colour: "#666666")[' + styled('the world has turned to color') + ']'),
@@ -186,7 +186,7 @@ def enrich_scene(name, body):
 
 def scene(name, role, number, chapter, path, alt, body, next_to=None, next_label='Continue →', sound='', extra='', ending='', classes='', progress=0, advance=True):
     body = enrich_scene(name, body)
-    role_label = {'pig': 'BOAR / FOREST', 'cat': 'CAT / HOME', 'duck': 'DUCK / ALTAR'}[role]
+    role_label = {'pig': 'WILD PIG / FOREST', 'cat': 'CAT / HOME', 'duck': 'DUCK / ALTAR'}[role]
     inner = '<div class="chapter"><span class="number">' + number + '</span><span>' + chapter + '</span><span class="track"></span><small>' + role_label + '</small></div>'
     inner += image(path, alt, bool(next_to and advance))
     inner += '<div class="scene-panel"><div class="scene-copy">' + body + (actions((next_label, next_to)) if next_to else '') + '</div>' + extra + '</div>'
@@ -210,7 +210,7 @@ add('Navigation', '<header class="mast"><span class="brand"><em>✧</em><span>TH
 
 title_portals = ''
 for key, number, label, animal, path, line in [
-    ('pig', 'I', 'FOREST', 'Boar', '素材/选角/野猪.jpg', '“How can it bite right through a tree?”'),
+    ('pig', 'I', 'FOREST', 'Wild Pig', '素材/选角/野猪.jpg', '“How can it bite right through a tree?”'),
     ('cat', 'II', 'HOME', 'Cat', '素材/选角/猫.jpg', '“Is this really my home now?”'),
     ('duck', 'III', 'ALTAR', 'Duck', '素材/选角/鸭子.jpg', '“Do the chosen ones really go to heaven?”'),
 ]:
@@ -220,17 +220,17 @@ title_copy = '<div class="title-copy"><div class="title-heading"><p class="title
 add('Start', '<section data-scene="Start" class="page title-screen" data-sound="themeOpen"><canvas class="title-dust" aria-hidden="true"></canvas><div class="title-light" aria-hidden="true"></div><div class="title-main">' + title_copy + title_art + '</div><footer class="title-footer"><span>Three stories · Six endings</span><span>Click an animal to hear its call</span><span class="title-edition">A GIFT FROM THE GODS / CHAPTER II</span></footer></section>')
 
 roles = [
-    ('pig', '01 / THE FOREST', 'Boar', 'Something huge has come to the forest.<br>You have never seen an animal like it.', '素材/选角/野猪.jpg', 'Boar-Forest'),
+    ('pig', '01 / THE FOREST', 'Wild Pig', 'Something huge has come to the forest.<br>You have never seen an animal like it.', '素材/选角/野猪.jpg', 'Boar-Forest'),
     ('cat', '02 / THE HOME', 'Cat', 'Someone says they will take you home.<br>You have waited in this cage for so long.', '素材/选角/猫.jpg', 'Cat-Cage'),
     ('duck', '03 / THE ALTAR', 'Duck', 'The ducks fight for grain from a god.<br>They say a full belly leads to heaven.', '素材/选角/鸭子.jpg', 'Duck-Pen'),
 ]
 cards = ''
 for key, label, animal, desc, path, target in roles:
     cards += '<article class="role-card"><span class="role-count" data-role-count="' + key + '">0/2</span><button type="button" class="animal-preview" data-animal="' + key + '" aria-label="Play the ' + animal + ' call"><img src="' + asset_url(path) + '" alt="' + animal + ' silhouette"><span class="sound-hint">Click to hear its call ♫</span></button><div class="role-copy"><div class="role-no">' + label + '</div><h2>' + animal + '</h2><p>' + desc + '</p><div class="role-enter">' + link('Begin this story <span>↗</span>', target) + '</div></div></article>'
-add('Choose a Character', '<section data-scene="Choose a Character" class="page selection" data-sound="themeOpen"><div class="eyebrow">PROLOGUE</div><div class="selection-head"><h1>Through Their Eyes</h1><p>Choose a character and see what happens next.</p></div><img class="selection-art" src="' + asset_url(silhouette('素材/选角/它们.jpg')) + '" alt="Silhouettes of a boar, a cat, and a duck"><div class="role-grid">' + cards + '</div><footer class="selection-foot"><span>Three stories · Two endings each · Underlined words are interactive</span><span class="series">They Once Existed / A Gift from the Gods</span></footer></section>')
+add('Choose a Character', '<section data-scene="Choose a Character" class="page selection" data-sound="themeOpen"><div class="eyebrow">PROLOGUE</div><div class="selection-head"><h1>Through Their Eyes</h1><p>Choose a character and see what happens next.</p></div><img class="selection-art" src="' + asset_url(silhouette('素材/选角/它们.jpg')) + '" alt="Silhouettes of a wild pig, a cat, and a duck"><div class="role-grid">' + cards + '</div><footer class="selection-foot"><span>Three stories · Two endings each · Underlined words are interactive</span><span class="series">They Once Existed / A Gift from the Gods</span></footer></section>')
 
 # 野猪：保留观察支线，结尾只保留离开与留下。
-scene('Boar-Forest', 'pig', '01', 'A noise beyond the trees', '新/1在森林.jpg', "A blue forest seen from a boar's point of view",
+scene('Boar-Forest', 'pig', '01', 'A noise beyond the trees', '新/1在森林.jpg', "A blue forest seen from a wild pig's point of view",
       '<h1>What is that noise?</h1>' + para('“Not thunder. Why is the ground shaking?”', 'voice') + para('You stop and turn toward the sound.', 'thought'), 'Boar-Machine', 'Go to the clearing →', 'pigOpen', progress=8)
 scene('Boar-Machine', 'pig', '01', 'A noise beyond the trees', '新/2看见伐木机.jpg', 'A dark logging machine appears beyond the trees',
       para('Something enormous moves slowly across the clearing.<br>There is no fur on its dark, hard shell.') + para('“It’s huge… What does it eat?”', 'voice') + choices(('Move closer', 'Get a better look at this creature.', 'Boar-Approach'), ('Follow the forest edge', 'See if there is a way around.', 'Boar-Path')), sound='pigOpen', progress=16)
@@ -242,18 +242,18 @@ scene('Boar-Lights', 'pig', '02', 'Blinding lights', '新/4机器发光.jpg', 'T
       para('The creature stops. Two beams of blinding yellow light hit your face.<br>The wind carries an odd smell. You have never smelled it before.') + para('“What are you staring at? This is my forest.”', 'voice') + choices(('Bare your tusks', 'It cannot be allowed any farther.', 'Boar-Charge'), ('Sniff the air first', 'Something about its smell is wrong.', 'Boar-Smell')), sound='pigOpen', progress=34)
 scene('Boar-Smell', 'pig', '02', 'An unfamiliar smell', '新/3伐木机靠近.jpg', "Dark gaps between the machine's wheels",
       '(set: $pigOil to true)' + para('You sniff again. No fur. No blood.<br>Only rust, engine oil, and sap from torn bark.') + para('“It keeps roaring. Doesn’t it need to breathe?”', 'voice') + memory('It has no animal scent. Its shell never moves with a breath.'), 'Boar-Charge', 'Try your tusks →', 'pigOpen', progress=40)
-scene('Boar-Charge', 'pig', '03', 'Charge', '新/5野猪靠近.jpg', 'A boar raises its tusks toward the glowing machine',
+scene('Boar-Charge', 'pig', '03', 'Charge', '新/5野猪靠近.jpg', 'A wild pig raises its tusks toward the glowing machine',
       para('“Get out! Leave these trees alone!”', 'voice') + para('You lower your head and drive your tusks into its shell.', 'thought'), sound='pigInteract',
       extra=task('ram', 'Ram the machine', 'Tusk strikes · 0 / 5', 'Look up →', 'Boar-God', 5, 'Strike five times. Try to drive it out of the forest.'), progress=45)
-scene('Boar-God', 'pig', '04', 'The god you recognize', '新/6机器变野猪.jpg', 'In the eyes of the boar, the machine becomes a god with enormous tusks',
-      para('On the fifth strike, your tusks ring with pain. You look up.<br>Behind the lights are tusks just like yours.') + para('“So it’s the boar god… No wonder I couldn’t move it.”', 'voice'), 'Boar-Mist', 'Gaze up at it →', 'pigWorship', progress=57)
-scene('Boar-Mist', 'pig', '04', 'The great god breathes', '新/7野猪喷气.jpg', 'The mechanical god vents white mist above the small blue boar',
+scene('Boar-God', 'pig', '04', 'The god you recognize', '新/6机器变野猪.jpg', 'In the eyes of the wild pig, the machine becomes a god with enormous tusks',
+      para('On the fifth strike, your tusks ring with pain. You look up.<br>Behind the lights are tusks just like yours.') + para('“So it’s the wild pig god… No wonder I couldn’t move it.”', 'voice'), 'Boar-Mist', 'Gaze up at it →', 'pigWorship', progress=57)
+scene('Boar-Mist', 'pig', '04', 'The great god breathes', '新/7野猪喷气.jpg', 'The mechanical god vents white mist above the small blue wild pig',
       para('White mist bursts from the great god.<br>You duck, then find yourself looking up again.', 'voice'), sound='pigWorship',
       extra=task('hold', 'Hold · Watch the great god vent', 'Hold the button to watch the mist from the great god.', 'Wait for the mist to clear →', 'Boar-Choice', hint='Hold for about two seconds to watch the great god vent.'), progress=70)
-scene('Boar-Choice', 'pig', '05', 'Leave or stay', '新/野猪说话.jpg', 'A boar stands before the silent steel god',
+scene('Boar-Choice', 'pig', '05', 'Leave or stay', '新/野猪说话.jpg', 'A wild pig stands before the silent steel god',
       '<h1>Will you stay here?</h1>' + para('“It’s so powerful. Surely I won’t go hungry if I follow it?”', 'voice') + para('Another tree falls behind you. You look back at the woods.') + '(if: $pigOil)[' + memory('But it never breathes. You still cannot explain that.') + '](if: $pigTrail)[' + memory('The northern path is still there, beside the old tree.') + ']' + choices(('Leave · Return to the forest', 'Find the stream and fruit you know.', 'Boar-Leave'), ('Stay · Follow the great god', 'A god this powerful will look after you. Surely.', 'Boar-Stay')), sound='pigWorship', progress=84)
 ending_role = 'pig'
-scene('Boar-Leave', 'pig', '06', 'Ending A · Leave', '新/1在森林.jpg', 'The boar turns back into the deep blue forest',
+scene('Boar-Leave', 'pig', '06', 'Ending A · Leave', '新/1在森林.jpg', 'The wild pig turns back into the deep blue forest',
       '<div class="ending-label">ENDING 01 / LEAVE</div><h1>Back to the Woods</h1>' + para('You take one last look at the great god, then slip into the trees.<br>Even far away, you can still hear its roar.') + '(if: $pigTrail)[' + para('You follow the northern path around the clearing and stop by the stream.') + '](else:)[' + para('You follow familiar scents until you find the stream.') + ']' + para('There is still fruit by the stream. You drink and eat until the hunger eases.') + para('You can sleep here tonight.', 'closing') + ending_tail(), sound='pigLive', ending='pig-live', classes='ending', progress=100)
 scene('Boar-Stay', 'pig', '06', 'Ending B · Stay', '新/2看见伐木机.jpg', 'The forest loses its color while the logging machine keeps working',
       '<div class="ending-label">ENDING 02 / STAY</div><h1>It Never Looked Back</h1>' + para('You follow the great god, taking its chips and stumps for gifts.<br>You cannot eat them. You keep waiting.') + para('Days later, the machine leaves. The shade is gone. Mud blocks the stream.<br>Too hungry to stand, you stare after it.') + para('It never comes back.', 'closing') + ending_tail(), sound='pigFall', ending='pig-fall', classes='ending ending-pig-fall', progress=100)
