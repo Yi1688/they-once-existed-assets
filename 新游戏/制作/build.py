@@ -277,13 +277,13 @@ scene('猫_咀嚼', 'cat', '03', '奇怪的味道', '猫/4.jpg', '食碗中出�
       para('饭里，好像藏着什么。', 'voice'), sound='catInteract',
       extra=task('chew', '尝试咀嚼', '咀嚼，然后吞咽。', '吞咽下去 →', '猫_色彩', hint='你太饿了。牙齿轻轻碰到了碗里的东西。'), progress=38)
 scene('猫_色彩', 'cat', '04', '世界突然有了色彩', '猫/5.jpg', '原本灰暗的猫笼变成低饱和的粉、蓝、绿等彩色斑块',
-      para('“我好像飘了起来。<br>世界突然有了色彩。”', 'voice') + para('冰冷的栏杆，也变得像糖果一样。', 'thought'), '猫_新家', '去往那个家 →', 'catInteract', classes='is-colour-scene', progress=48)
+      para('“我好像飘了起来。<br>世界突然有了色彩。”', 'voice') + para('冰冷的栏杆，也变得像糖果一样。', 'thought'), '猫_新家', '去往那个家 →', 'catDream', classes='is-colour-scene', progress=48)
 scene('猫_新家', 'cat', '05', '如约而至的“家”', '猫/6.jpg', '有地毯、绿植、沙发和猫画像的柔和房间',
-      '<h1>我有家啦。</h1>' + para('这里有地毯，有植物，墙上还挂着我。<br>一切，都和梦里的样子一样。', 'voice') + '<p class="thought">(link: "看看沙发")[软软的沙发，原来真的存在。]　·　(link: "看看墙上的画")[画里的我，看起来很幸福。]</p>' + '(if: $catCompanion)[' + para('“如果角落里的它，也能住进来就好了。”', 'thought') + ']' + '(if: $catTag)[' + memory('笼门上那张被撕下的标签。它说，我很健康。') + ']' + para('可是……为什么我的头越来越沉，身体好像有点发热……', 'thought') + choices(('闭上眼睛，再睁开', '让这阵眩晕，慢慢过去。', '猫_祭司'), ('走到窗边透一口气', '光的另一边，是什么？', '猫_窗边')), sound='catOpen', progress=61)
+      '<h1>我有家啦。</h1>' + para('这里有地毯，有植物，墙上还挂着我。<br>一切，都和梦里的样子一样。', 'voice') + '<p class="thought">(link: "看看沙发")[软软的沙发，原来真的存在。]　·　(link: "看看墙上的画")[画里的我，看起来很幸福。]</p>' + '(if: $catCompanion)[' + para('“如果角落里的它，也能住进来就好了。”', 'thought') + ']' + '(if: $catTag)[' + memory('笼门上那张被撕下的标签。它说，我很健康。') + ']' + para('可是……为什么我的头越来越沉，身体好像有点发热……', 'thought') + choices(('闭上眼睛，再睁开', '让这阵眩晕，慢慢过去。', '猫_祭司'), ('走到窗边透一口气', '光的另一边，是什么？', '猫_窗边')), sound='catDream', progress=61)
 scene('猫_窗边', 'cat', '05', '灯光以外', '猫/6.jpg', '温暖房间的窗户透进朦胧的光',
-      para('你想跳上窗台，后腿却没有跟上来。<br>有人把你轻轻抱起，摸了摸你滚烫的额头。') + para('“不对……你怎么会病得这么快？”', 'voice') + para('你终于知道，那盏灯是真的。<br>只是承诺你健康的那个人，没有说真话。', 'thought'), '猫_祭司', '在那双手里，慢慢闭上眼睛 →', 'catEnd', progress=70)
+      para('你想跳上窗台，后腿却没有跟上来。<br>有人把你轻轻抱起，摸了摸你滚烫的额头。') + para('“不对……你怎么会病得这么快？”', 'voice') + para('你终于知道，那盏灯是真的。<br>只是承诺你健康的那个人，没有说真话。', 'thought'), '猫_祭司', '在那双手里，慢慢闭上眼睛 →', 'catDream', progress=70)
 scene('猫_祭司', 'cat', '06', '喵星之门', '猫/7祭司说话猫.jpg', '背着十字架、戴着骨饰的猫祭司站在猫面前',
-      para('很烫……全身都好痛。面前好像站着一个高大的影子。') + para('“小可怜，你的寿命只有短暂的一周。<br>你的身体已经撑不住了。走吧，前面就是没有痛苦的喵星天堂。”', 'voice') + actions(('前往 · 走向那道光', '猫_天堂'), ('放弃 · 闭上眼睛', '猫_告别')), sound='catEnd', progress=78)
+      para('很烫……全身都好痛。面前好像站着一个高大的影子。') + para('“小可怜，你的寿命只有短暂的一周。<br>你的身体已经撑不住了。走吧，前面就是没有痛苦的喵星天堂。”', 'voice') + actions(('前往 · 走向那道光', '猫_天堂'), ('放弃 · 闭上眼睛', '猫_告别')), sound='catPriest', progress=78)
 scene('猫_天堂', 'cat', '07', '选择 A · 前往', '猫/6.jpg', '猫再一次望见它梦想中的温暖房间',
       '<div class="ending-label">THE OTHER SIDE / 光的另一边</div><h1>你来到了天堂</h1>' + para('这里不再疼痛。那盏暖黄的灯，终于为你亮着。', 'voice') + para('由于你的勇敢选择，这场骗局的一角，开始被揭开。', 'thought'), '猫_新闻前往', '看看它后来留下的痕迹 →', 'catEnd', classes='ending', progress=90)
 scene('猫_告别', 'cat', '07', '选择 B · 放弃', '猫/7祭司说话猫.jpg', '猫闭上双眼，祭司的身影逐渐隐入黑暗',
@@ -294,7 +294,7 @@ scene('猫_新闻前往', 'cat', '08', '结局 A · 前往', '猫/8.jpg', '屏�
 scene('猫_新闻放弃', 'cat', '08', '结局 B · 放弃', '猫/8.jpg', '屏幕上的新闻记录了猫的遭遇和猫贩团伙的骗局',
       '<div class="ending-label">ENDING 04 / 放弃</div><h1>短暂地，被爱过</h1>' + para('你被作为无法救治的宠物，进行了安乐死。<br>你终究没能在那个家，多住一些日子。') + para('【故事中的新闻】你的遭遇成为揭开骗局的线索。<br>被药物伪装成“健康”的猫，和背后的非法交易团伙，终于被看见。', 'ending-note') + para('你的遭遇，化作斩断罪恶链条的利刃。', 'closing') + ending_tail(), sound='catEnd', ending='cat-sleep', classes='ending', progress=100)
 scene('猫_救助', 'cat', '08', '隐藏结局 · 门开之前', '猫/2.jpg', '一盏暖黄的灯，为被及时救助的猫亮起',
-      '<div class="ending-label">HIDDEN ENDING / 门开之前</div><h1>这一次，先听见了你</h1>' + para('那个人留下了食碗，也留下了旧标签。<br>这一次，没有人再把那几粒药当成“活泼”的秘密。') + para('你被带出了笼子，接受检查与照料。真正的家还没有到来，<br>但你不用急着，在今天就变成别人喜欢的模样。') + '(if: $catCompanion)[' + para('另一只小小的笼子，放在你的旁边。角落里的同伴，也一起出来了。', 'ending-note') + '](else:)[' + para('有人回头，开始检查那些还没有打开的笼门。', 'ending-note') + ']' + para('你还有时间，慢慢等那盏灯。', 'closing') + ending_tail(), sound='catEnd', ending='cat-rescue', classes='ending', progress=100)
+      '<div class="ending-label">HIDDEN ENDING / 门开之前</div><h1>这一次，先听见了你</h1>' + para('那个人留下了食碗，也留下了旧标签。<br>这一次，没有人再把那几粒药当成“活泼”的秘密。') + para('你被带出了笼子，接受检查与照料。真正的家还没有到来，<br>但你不用急着，在今天就变成别人喜欢的模样。') + '(if: $catCompanion)[' + para('另一只小小的笼子，放在你的旁边。角落里的同伴，也一起出来了。', 'ending-note') + '](else:)[' + para('有人回头，开始检查那些还没有打开的笼门。', 'ending-note') + ']' + para('你还有时间，慢慢等那盏灯。', 'closing') + ending_tail(), sound='catDream', ending='cat-rescue', classes='ending', progress=100)
 
 # 鸭子：两只可点击的对手，交替争夺六次，再进入天平与审判。
 scene('鸭_泥沼', 'duck', '01', '神圣的泥沼', '鸭/鸭1.jpg', '头顶光晕的鸭子站在色彩浓烈的泥沼中',
@@ -302,9 +302,9 @@ scene('鸭_泥沼', 'duck', '01', '神圣的泥沼', '鸭/鸭1.jpg', '头顶光�
 scene('鸭_拥挤', 'duck', '02', '神明撒下水和粮', '鸭/鸭2.jpg', '一群彩色的鸭子向前挤去',
       para('“大家都在往前挤什么？”', 'voice') + para('“看啊，神明撒下了水和粮。”'), '鸭_神迹', '跟着它们挤上前 →', 'duckOpen', progress=23)
 scene('鸭_神迹', 'duck', '02', '没有泥沼的天堂', '鸭/鸭3.jpg', '鸭群在高高的人类形象周围聚集，像在朝拜神明',
-      para('“吃了它，我们就能去往没有泥沼的天堂。”', 'voice') + para('只有吃下神明投下的粮食，你才拥有“被挑选”的资格。', 'thought') + choices(('争夺被选中的资格', '只要再向前一点，就能拿到粮食。', '鸭_争夺'), ('扶起身旁倒下的鸭子', '它的翅膀，已经陷进泥里。', '鸭_同伴')), sound='duckOpen', progress=36)
+      para('“吃了它，我们就能去往没有泥沼的天堂。”', 'voice') + para('只有吃下神明投下的粮食，你才拥有“被挑选”的资格。', 'thought') + choices(('争夺被选中的资格', '只要再向前一点，就能拿到粮食。', '鸭_争夺'), ('扶起身旁倒下的鸭子', '它的翅膀，已经陷进泥里。', '鸭_同伴')), sound='duckWorship', progress=36)
 scene('鸭_同伴', 'duck', '02', '泥里的那只翅膀', '鸭/鸭2.jpg', '拥挤的鸭群里，有一只鸭子落在后方',
-      '(set: $duckHelp to true)' + para('你停了下来，用身体顶开一点拥挤的空隙。那只鸭子终于把翅膀，从泥里拔了出来。') + para('“谢谢。你也要去争那一粒粮吗？”', 'voice') + para('前面又有人撒下食物。它和你，一起望了过去。', 'thought'), '鸭_争夺', '一起，走进队伍 →', 'duckOpen', progress=43)
+      '(set: $duckHelp to true)' + para('你停了下来，用身体顶开一点拥挤的空隙。那只鸭子终于把翅膀，从泥里拔了出来。') + para('“谢谢。你也要去争那一粒粮吗？”', 'voice') + para('前面又有人撒下食物。它和你，一起望了过去。', 'thought'), '鸭_争夺', '一起，走进队伍 →', 'duckWorship', progress=43)
 duel = '<div class="interaction" data-task="duel" data-goal="6"><p class="instructions">交替点击左右两只鸭子，冲撞对手，争得粮食。</p><div class="duel">'
 for index, (path, alt) in enumerate([('鸭/4.jpg', '张开翅膀的粉色鸭子'), ('鸭/4 1.jpg', '张开翅膀的紫色鸭子')]):
     duel += '<button type="button" class="duel-target" data-task-action data-duck-target="' + str(index) + '" aria-label="冲撞' + ('左' if index == 0 else '右') + '侧鸭子"><img src="' + asset_url(path) + '" alt="' + alt + '"><span class="target-label" data-target-life>还需 3 次</span></button>'
@@ -312,13 +312,13 @@ duel += '</div><div class="duel-status"><span>圣餐 <strong data-grains>0</stro
 scene('鸭_争夺', 'duck', '03', '被选中的资格', '鸭/4.jpg', '鸭子争抢神明撒下的粮食',
       '<h1>争夺圣餐</h1>' + para('撕咬、冲撞、踩踏。<br>你和同类，争抢着神明投下的那一粒粮食。', 'voice'), sound='duckInteract', extra=duel, classes='task-duck', progress=50)
 scene('鸭_粮食', 'duck', '03', '六粒粮食', '鸭/鸭2.jpg', '争抢之后的鸭群渐渐安静下来',
-      '<h1>终于，拿到了。</h1>' + para('你把粮食护在身下。它们很少，却是你用力挤出来的全部。') + '(if: $duckHelp)[' + para('刚才扶起的同伴，安静地站在你身旁。它一粒也没有抢到。', 'thought') + '](else:)[' + para('身旁还有一些鸭子，空着嘴，望着撒粮的地方。', 'thought') + ']' + choices(('全部吃下', '你不想失去被挑选的资格。', '鸭_独食'), ('分出一半', '不够去天堂，至少也能度过今天。', '鸭_分食')), sound='duckOpen', progress=58)
+      '<h1>终于，拿到了。</h1>' + para('你把粮食护在身下。它们很少，却是你用力挤出来的全部。') + '(if: $duckHelp)[' + para('刚才扶起的同伴，安静地站在你身旁。它一粒也没有抢到。', 'thought') + '](else:)[' + para('身旁还有一些鸭子，空着嘴，望着撒粮的地方。', 'thought') + ']' + choices(('全部吃下', '你不想失去被挑选的资格。', '鸭_独食'), ('分出一半', '不够去天堂，至少也能度过今天。', '鸭_分食')), sound='duckWorship', progress=58)
 scene('鸭_独食', 'duck', '03', '被挑选的重量', '鸭/鸭3.jpg', '鸭子向着投粮者的方向仰望',
-      para('你低下头，飞快地吃完了粮食。<br>神明的手，果然朝你伸了过来。') + para('“看，我就要被选中了。”', 'voice') + para('身旁的脚步，轻轻退开了一点。', 'thought'), '鸭_天平', '站上天平 →', 'duckOpen', progress=63)
+      para('你低下头，飞快地吃完了粮食。<br>神明的手，果然朝你伸了过来。') + para('“看，我就要被选中了。”', 'voice') + para('身旁的脚步，轻轻退开了一点。', 'thought'), '鸭_天平', '站上天平 →', 'duckWorship', progress=63)
 scene('鸭_分食', 'duck', '03', '不去天堂的半份食物', '鸭/鸭2.jpg', '鸭群在泥沼中彼此靠近',
-      '(set: $duckShare to true)' + para('你把一半粮食推了过去。没有光晕，也没有神迹。<br>只有几张终于不再空着的嘴。') + para('“如果今天不被选中，<br>我们可以一起去看看泥沼的边缘吗？”', 'voice') + memory('有同伴，正在等你一起离开队伍。'), '鸭_天平', '抬起头，看向那座天平 →', 'duckOpen', progress=63)
+      '(set: $duckShare to true)' + para('你把一半粮食推了过去。没有光晕，也没有神迹。<br>只有几张终于不再空着的嘴。') + para('“如果今天不被选中，<br>我们可以一起去看看泥沼的边缘吗？”', 'voice') + memory('有同伴，正在等你一起离开队伍。'), '鸭_天平', '抬起头，看向那座天平 →', 'duckWorship', progress=63)
 scene('鸭_天平', 'duck', '04', '残酷的砝码', '鸭/鸭5.jpg', '神圣的天平一边是蓝色的鸭子，一边是沉重的红色祭品',
-      '<h1>天平衡量的是什么？</h1>' + para('神明的天平，从不衡量灵魂的重量。<br>它只衡量，脂肪的厚度。', 'voice') + '(if: $duckShare)[' + para('你的分量，不如身旁那些独自吃完粮食的鸭子。<br>第一次，没有被选中，好像也没有那么可怕。') + '](else:)[' + para('你拼命吃下的一切，是为了让自己成为更丰厚的祭品。<br>越肥美，越“光荣”，越容易被选中。') + ']', '鸭_祭司', '迎向挑选你的目光 →', 'duckOpen', progress=72)
+      '<h1>天平衡量的是什么？</h1>' + para('神明的天平，从不衡量灵魂的重量。<br>它只衡量，脂肪的厚度。', 'voice') + '(if: $duckShare)[' + para('你的分量，不如身旁那些独自吃完粮食的鸭子。<br>第一次，没有被选中，好像也没有那么可怕。') + '](else:)[' + para('你拼命吃下的一切，是为了让自己成为更丰厚的祭品。<br>越肥美，越“光荣”，越容易被选中。') + ']', '鸭_祭司', '迎向挑选你的目光 →', 'duckScales', progress=72)
 scene('鸭_祭司', 'duck', '05', '祭司的提问', '鸭/鸭6.jpg', '鸭祭司转身望向屏幕之外的玩家',
       '<h1>这一次，它在问你。</h1>' + para('“告诉我，人类，<br>是主宰生物链的造物主吗？”', 'voice') + choices(('是', '力量，是否也意味着责任？', '鸭_是'), ('否', '那是谁，替它们决定结局？', '鸭_否')) + '(if: $duckHelp and $duckShare)[' + choices(('先问问，谁替我们决定', '你想起那只被扶起的翅膀，和分出去的半份粮食。', '鸭_反问')) + ']', sound='duckEnd', progress=83)
 scene('鸭_反问', 'duck', '05', '祭司没有说过的话', '鸭/鸭6.jpg', '祭司的目光与鸭群相对',
@@ -337,7 +337,7 @@ scene('鸭_是', 'duck', '06', '结局 A · 是', '鸭/鸭6.jpg', '鸭祭司静�
 scene('鸭_否', 'duck', '06', '结局 B · 否', '鸭/鸭6.jpg', '鸭祭司向屏幕外的人类提出最后一个问题',
       '<div class="ending-label">ENDING 06 / 否</div><h1>那就，留一点世界给它们</h1>' + para('“如果我们都不是造物主，<br>为什么有些生命，可以替另一些生命决定结局？”', 'voice'), sound='duckEnd', extra=no_facts + ending_tail(), ending='duck-no', classes='ending data-ending', progress=100)
 scene('鸭_同行', 'duck', '06', '隐藏结局 · 队伍之外', '鸭/鸭2.jpg', '几只鸭子不再向前拥挤，转而朝着泥沼边缘走去',
-      '<div class="ending-label">HIDDEN ENDING / 队伍之外</div><h1>不被选中的我们</h1>' + para('你们没有再向前挤。被扶起的同伴、吃过你半份粮食的鸭子，和你一起，慢慢走向队伍之外。') + para('那边仍然是泥沼。没有人许诺你们永恒，也没有人替你们加上光晕。<br>但今天，你们终于可以自己决定，往哪里走。') + para('至少这一次，没有谁踩着谁的翅膀。', 'closing') + ending_tail(), sound='duckEnd', ending='duck-together', classes='ending', progress=100)
+      '<div class="ending-label">HIDDEN ENDING / 队伍之外</div><h1>不被选中的我们</h1>' + para('你们没有再向前挤。被扶起的同伴、吃过你半份粮食的鸭子，和你一起，慢慢走向队伍之外。') + para('那边仍然是泥沼。没有人许诺你们永恒，也没有人替你们加上光晕。<br>但今天，你们终于可以自己决定，往哪里走。') + para('至少这一次，没有谁踩着谁的翅膀。', 'closing') + ending_tail(), sound='duckOpen', ending='duck-together', classes='ending', progress=100)
 
 entries = {
     'pig': [('pig-live', '森林仍然接纳你', '你离开了巨神，回到森林深处，活了下来。'), ('pig-fall', '沉默的庇护者', '你留下追随巨神，最终随失去的森林一同倒下。'), ('pig-guide', '把来路留给后来者', '你观察了来路与机器的气味，最后带着同伴走向森林深处。')],

@@ -4,10 +4,19 @@
   let saved={endings:[],muted:false};
   try{const value=JSON.parse(localStorage.getItem(storageKey)||'{}');if(value&&typeof value==='object')saved={endings:Array.isArray(value.endings)?value.endings.filter(x=>typeof x==='string'):[],muted:value.muted===true};}catch(_){}
   const persist=()=>{try{localStorage.setItem(storageKey,JSON.stringify(saved));}catch(_){}};
-  // 猫、鸭的章节音频尚未提供。补齐后只需在这里填写 GitHub 原始文件直链，空值不发起音频请求。
+  // 三条路线按章节播放 GitHub 原始文件直链。同一音频跨页面继续播放，切换章节时停止上一段。
   const sceneAudio={
     pigOpen:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%BC%80%E5%9C%BA.m4a',pigInteract:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E4%BA%A4%E4%BA%92.m4a',pigWorship:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%B4%87%E6%8B%9C.m4a',pigLive:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E5%AD%98%E6%B4%BB.m4a',pigFall:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AA%E9%9F%B3%E9%A2%91/%E7%8C%AA%E7%81%AD%E7%BB%9D.m4a',
-    catOpen:null,catInteract:null,catEnd:null,duckOpen:null,duckInteract:null,duckEnd:null
+    catOpen:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AB%E5%BC%80%E5%9C%BA.m4a',
+    catInteract:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AB%E5%90%83%E8%8D%AF.m4a',
+    catDream:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AB%E5%B9%BB%E6%83%B3.m4a',
+    catPriest:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AB%E7%A5%AD%E5%8F%B8.m4a',
+    catEnd:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%8C%AB%E6%AD%BB%E4%BA%A1.m4a',
+    duckOpen:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E9%B8%AD%E5%BC%80%E5%9C%BA.m4a',
+    duckWorship:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E9%B8%AD%E5%B4%87%E6%8B%9C.m4a',
+    duckInteract:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E9%B8%AD%E4%BA%A4%E4%BA%92.m4a',
+    duckScales:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E9%B8%AD%E5%A4%A9%E6%9E%B0.m4a',
+    duckEnd:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E9%B8%AD%E7%A5%AD%E5%8F%B8.m4a'
   };
   const calls={pig:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%B4%A0%E6%9D%90/%E5%8F%AB%E5%A3%B0/%E9%87%8E%E7%8C%AA%E5%8F%AB.mp3',cat:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%B4%A0%E6%9D%90/%E5%8F%AB%E5%A3%B0/%E7%8C%AB%E5%8F%AB.mp3',duck:'https://raw.githubusercontent.com/Yi1688/they-once-existed-assets/main/%E6%96%B0%E6%B8%B8%E6%88%8F/%E7%B4%A0%E6%9D%90/%E5%8F%AB%E5%A3%B0/%E9%B8%AD%E5%AD%90%E5%8F%AB.mp3'};
   const ambient=new Audio();ambient.loop=true;ambient.preload='none';ambient.volume=.52;
